@@ -424,6 +424,10 @@ main(int argc, char *argv[])
 	opt_SetCurrentOptions(&DefaultOptions);
 	opt_ParseDefines();
 
+	if (dependfile) {
+		return 0;
+	}
+
 	if (CurrentOptions.verbose) {
 		printf("Pass 2...\n");
 	}

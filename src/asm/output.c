@@ -48,6 +48,7 @@ struct Section *pSectionList = NULL, *pCurrentSection = NULL;
 struct PatchSymbol *pPatchSymbols = NULL;
 struct PatchSymbol **ppPatchSymbolsTail = &pPatchSymbols;
 char *tzObjectname;
+extern FILE *dependfile;
 struct SectionStackEntry *pSectionStack = NULL;
 
 /*
@@ -806,6 +807,10 @@ out_PCRelByte(struct Expression * expr)
 void 
 out_BinaryFile(char *s)
 {
+	if (dependfile) {
+		fprintf(dependfile, "%s: %s\n", tzObjectname, s);
+		return;
+	}
 	FILE *f;
 
 	f = fstk_FindFile(s);
@@ -837,6 +842,10 @@ out_BinaryFile(char *s)
 void 
 out_BinaryFileSlice(char *s, SLONG start_pos, SLONG length)
 {
+	if (dependfile) {
+		fprintf(dependfile, "%s: %s\n", tzObjectname, s);
+		return;
+	}
 	FILE *f;
 
 	if (start_pos < 0)
